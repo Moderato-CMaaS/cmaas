@@ -1,5 +1,5 @@
-import { Webhook, Gauge, ShieldCheck, ChartNoAxesCombined, CircleDollarSign, Settings } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Webhook, Gauge, ShieldCheck, ChartNoAxesCombined, CircleDollarSign, Settings } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // Menu items.
 const items = [
@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Policy Management",
-    url: "#", // # must be replace with ur actual path
+    url: "#", // Replace with actual path
     icon: ShieldCheck,
   },
   {
@@ -43,36 +43,58 @@ const items = [
     url: "#",
     icon: Settings,
   },
-]
+];
+
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Moderato CMaas</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            <div className="px-3 py-2 mt-6 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-800">MODERATO CMAAS</h2>
+            </div>
+          </SidebarGroupLabel>
+
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    {item.url === "#" ? (   // this comditional check will be removed after updating all the paths
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    ) : (
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    )}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <div className=" py-7">
+              <SidebarMenu>
+                <div className="space-y-3">
+                  {items.map((item) => {
+                    const isActive = location.pathname === item.url;
+
+                    const linkClasses = `flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+                      isActive
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                        : "text-gray-700 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+                    }`;
+
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild isActive={isActive}>
+                          {item.url === "#" ? (
+                            <a href={item.url} className={linkClasses}>
+                              <item.icon className="w-5 h-5" />
+                              <span>{item.title}</span>
+                            </a>
+                          ) : (
+                            <Link to={item.url} className={linkClasses}>
+                              <item.icon className="w-5 h-5" />
+                              <span>{item.title}</span>
+                            </Link>
+                          )}
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </div>
+              </SidebarMenu>
+            </div>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

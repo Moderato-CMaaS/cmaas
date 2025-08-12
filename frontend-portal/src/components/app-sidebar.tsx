@@ -25,22 +25,22 @@ const items = [
   },
   {
     title: "Policy Management",
-    url: "#", // Replace with actual path
+    url: "/policies",
     icon: ShieldCheck,
   },
   {
     title: "Usage Analytics",
-    url: "#",
+    url: "/analytics",
     icon: ChartNoAxesCombined,
   },
   {
     title: "Billing",
-    url: "#",
+    url: "/billing",
     icon: CircleDollarSign,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: Settings,
   },
 ];
@@ -74,17 +74,10 @@ export function AppSidebar() {
                     return (
                       <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild isActive={isActive}>
-                          {item.url === "#" ? (
-                            <a href={item.url} className={linkClasses}>
-                              <item.icon className="w-5 h-5" />
-                              <span>{item.title}</span>
-                            </a>
-                          ) : (
-                            <Link to={item.url} className={linkClasses}>
-                              <item.icon className="w-5 h-5" />
-                              <span>{item.title}</span>
-                            </Link>
-                          )}
+                          <Link to={item.url} className={linkClasses}>
+                            <item.icon className="w-5 h-5" />
+                            <span>{item.title}</span>
+                          </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     );

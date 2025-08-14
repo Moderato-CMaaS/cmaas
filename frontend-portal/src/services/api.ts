@@ -1,5 +1,6 @@
 // Base API service for making requests
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+// Note: In production, use environment variables for API configuration
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
 // API Key interface
 export interface ApiKey {
@@ -29,14 +30,14 @@ let mockApiKeys: ApiKey[] = [
   {
     id: 'key-1',
     name: 'Production API Key',
-    key: 'pk_live_51NBzT8aKZ9DsLExGFhnJYnuSLGTOr5DYKmsNr92XE',
+    key: 'pk_live_****************************masked',
     createdAt: '2023-09-15T14:28:32.000Z',
     lastUsed: '2023-12-01T09:14:23.000Z',
   },
   {
     id: 'key-2',
     name: 'Development API Key',
-    key: 'pk_test_51NBzT8aKZ9DsLExGFhnJYnuSLGTOr5DYKmsNr92XE',
+    key: 'pk_test_****************************masked',
     createdAt: '2023-10-21T08:12:45.000Z',
     lastUsed: '2023-11-28T16:32:11.000Z',
   },

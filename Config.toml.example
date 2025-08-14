@@ -1,0 +1,8 @@
+# Supabase Database Configuration Template
+# Copy this file to Config.toml and replace with your actual values
+
+DB_HOST = "your-supabase-host.supabase.co"
+DB_NAME = "postgres"
+DB_USERNAME = "postgres"
+DB_PASSWORD = "your-actual-password"
+DB_PORT = 5432

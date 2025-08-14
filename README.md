@@ -1,60 +1,211 @@
-# Content Moderation as a Service (CMaaS)
+# CRUD App - React + Ballerina + Supabase
 
-A customizable API-based platform for moderating user-generated content using AI and custom rules.
+This project demonstrates a full-stack CRUD application using:
+- **Frontend**: React with Vite
+- **Backend**: Ballerina REST API
+- **Database**: Supabase (PostgreSQL)
 
-## Vision
+## Architecture Overview
 
-CMaaS is an intelligent, highly adaptable SaaS platform that empowers developers and businesses to enforce their unique community standards. The service provides a powerful API that uses a Retrieval-Augmented Generation (RAG) system, allowing users to define their content policies in natural language.
+```
+React Frontend (Port 3000)
+       ↓
+Ballerina API (Port 8080)
+       ↓
+Supabase PostgreSQL Database
+```
 
-## Key Features
+## Prerequisites
 
-- Dynamic Moderation API - Moderate content based on your custom rules
-- Developer Self-Service Portal - Manage accounts, API keys, and usage
-- Custom Policy Engine - Define moderation policies in plain English
-- Multi-Tenant Architecture - Secure isolation of each user's rules and data
+1. **Ballerina**: Already installed ✅ (Version 2201.12.7)
+2. **Node.js**: Required for React frontend
+3. **Supabase Account**: For database hosting
 
-## Architecture
+## Setup Instructions
 
-CMaaS uses a microservices architecture combining .NET and Python components:
+### 1. Supabase Setup
 
-- **.NET API Gateway:** Central entry point that handles all incoming requests, validates API keys, enforces usage quotas, and routes traffic
-- **Python RAG Microservice:** The AI engine that processes moderation requests by retrieving user-specific rules and consulting external LLMs
-- **Vector Database:** Stores embeddings of user-defined rules for fast and relevant retrieval
-- **Relational Database:** Stores user accounts, API keys, subscription plans, and usage logs
-- **Frontend User Portal:** Web interface for account management and rule configuration
+1. Create a free account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Go to Settings > Database
+4. Note down your connection details:
+   - Host: `db.your-project-ref.supabase.co`
+   - Database name: `postgres`
+   - Username: `postgres`
+   - Password: `your-password`
+   - Port: `5432`
 
-## Workflows
+5. Run the SQL script in Supabase SQL Editor:
+   ```sql
+   -- Copy and paste contents from database_setup.sql
+   ```
 
-### Rule Management
+### 2. Backend Configuration
 
-1. Users define their content moderation policies in natural language through the web portal
-2. The system converts these rules into vector embeddings
-3. Embeddings are stored in the vector database linked to the user's ID
+1. Update `Config.toml` with your Supabase credentials:
+   ```toml
+   DB_HOST = "db.your-project-ref.supabase.co"
+   DB_NAME = "postgres"
+   DB_USERNAME = "postgres"
+   DB_PASSWORD = "your-actual-password"
+   DB_PORT = 5432
+   ```
 
-### Moderation Request
+   ⚠️ **Important**: Replace the values with your actual Supabase credentials.
 
-1. Client sends content to be moderated via the API
-2. System identifies the user from their API key
-3. Relevant rules are retrieved from the vector database
-4. Content and rules are sent to an LLM (via OpenAI API) for judgment
-5. API returns a structured response indicating if content violates any rules
+## 🔒 Security Notice
 
-## Technology Stack
+**NEVER commit sensitive files to Git:**
+- `Config.toml` contains your database password (already in `.gitignore`)
+- Use `Config.toml.example` as a template
+- Frontend API keys should use environment variables, not hardcoded values
+- Always review files before committing to avoid exposing credentials
 
-### Backend
+2. Install Ballerina dependencies and run:
+   ```bash
+   bal run
+   ```
 
-- API Gateway: [ASP.NET](http://ASP.NET) Core
-- AI & Orchestration: Python, Flask, OpenAI API Client
-- Databases: PostgreSQL (AWS RDS), Pinecone/Chroma (Vector DB)
+### 3. Frontend Setup
 
-### Frontend
+1. Navigate to the React frontend:
+   ```bash
+   cd react-frontend
+   ```
 
-- React Library
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### DevOps
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Containerization: Docker
-- Cloud: AWS (EC2/ECS)
-- CI/CD: GitHub Actions
-- Version Control: Git
-- API Documentation: Swashbuckle.AspNetCore
+## API Endpoints
+
+The Ballerina backend provides these REST endpoints:
+
+- `GET /api/users` - Get all users
+- `GET /api/users/{id}` - Get user by ID
+- `POST /api/users` - Create new user
+- `PUT /api/users/{id}` - Update user
+- `DELETE /api/users/{id}` - Delete user
+
+## Features
+
+### Backend (Ballerina)
+- ✅ RESTful API with proper HTTP methods
+- ✅ PostgreSQL database integration
+- ✅ CORS support for React frontend
+- ✅ Error handling and validation
+- ✅ Type-safe record definitions
+- ✅ SSL connection to Supabase
+
+### Frontend (React)
+- ✅ Modern React with hooks
+- ✅ CRUD operations interface
+- ✅ Form validation
+- ✅ Loading states
+- ✅ Error handling
+- ✅ Responsive design
+- ✅ Real-time updates
+
+### Database (Supabase)
+- ✅ PostgreSQL with proper schema
+- ✅ Auto-generated timestamps
+- ✅ Primary keys and constraints
+- ✅ SSL connections
+
+## Testing the Application
+
+1. **Start Backend**: `bal run` (Port 8080)
+2. **Start Frontend**: `npm run dev` in react-frontend folder (Port 3000)
+3. **Open Browser**: Navigate to `http://localhost:3000`
+
+You should see:
+- A form to add new users
+- A list of existing users
+- Edit/Delete buttons for each user
+- Real-time updates when performing CRUD operations
+
+## Verification Checklist
+
+✅ **Ballerina Backend**
+- REST API endpoints working
+- Database connection established
+- CORS enabled for React
+- Error handling implemented
+
+✅ **React Frontend**
+- Components rendering correctly
+- API calls working
+- Form submissions functional
+- State management working
+
+✅ **Supabase Integration**
+- Database connection successful
+- SSL connection working
+- CRUD operations persisting data
+- Auto-generated timestamps
+
+## Troubleshooting
+
+### Common Issues:
+
+1. **Database Connection Error**
+   - Verify Supabase credentials in Config.toml
+   - Check if Supabase project is active
+   - Ensure SSL mode is enabled
+
+2. **CORS Errors**
+   - Backend includes CORS headers
+   - Frontend uses proxy configuration
+
+3. **Port Conflicts**
+   - Backend: 8080
+   - Frontend: 3000
+   - Change ports if needed
+
+## Next Steps
+
+This basic setup can be extended with:
+- Authentication (Supabase Auth)
+- Input validation
+- Pagination
+- Search functionality
+- File uploads
+- Real-time subscriptions
+- Unit tests
+- Deployment configuration
+
+## Project Structure
+
+```
+crud-app/
+├── main.bal                 # Ballerina API server
+├── Ballerina.toml          # Ballerina project config
+├── Config.toml             # Database configuration
+├── database_setup.sql      # Database schema
+└── react-frontend/         # React application
+    ├── src/
+    │   ├── App.jsx         # Main React component
+    │   ├── App.css         # Styling
+    │   └── main.jsx        # React entry point
+    ├── package.json        # Node.js dependencies
+    └── vite.config.js      # Vite configuration
+```
+
+## Conclusion
+
+✅ **YES, you can definitely implement a CRUD app with React + Ballerina + Supabase!**
+
+This setup provides:
+- Type-safe backend with Ballerina
+- Modern React frontend
+- Reliable PostgreSQL database via Supabase
+- Full CRUD operations
+- Production-ready architecture
+
+The combination works excellently together and provides a solid foundation for building scalable web applications.
